@@ -1,31 +1,41 @@
 import React from "react";
 
 // Le composant reçoit la valeur et le callback du parent
-export function Ligne({ initialText, onTextChange }) {
+export function Ligne({ ligneData, onDataChange }) {
 
+    //// Fonction générique pour gérer tous les changements texte /select
     const handleChange = (e) => {
+        const { name, value } = e.target;
         // Envoie la nouvelle valeur au parent Table
-        onTextChange(e.target.value);
+        onDataChange(name, value);
     };
 
     return (
         <tr>
+            {/*Zone texte*/}
             <td className="w-50">
                 <input
                     type="text"
                     className="bg-white text-secondary"
-                    value={initialText}
+                    name="text"
+                    value={ligneData.text}
                     onChange={handleChange}
                     placeholder="lorem"
                 />
             </td>
+            {/*Zone select bool*/}
             <td className="w-50">
-                <select className="form-select">
+                <select className="form-select"
+                    name="selectBool"
+                    value={ligneData.selectBool}
+                    onChange={handleChange}>
+
                     <option value="1">Oui</option>
                     <option value="2">Non</option>
                 </select>
             </td>
 
+            {/*Zone badge auto-complete*/}
             <td className="container">
                 <div className="row">
                     <div
@@ -42,8 +52,13 @@ export function Ligne({ initialText, onTextChange }) {
                 </div>
             </td>
 
+            {/*Zone select choix*/}
             <td>
-                <select className="form-select" label="3/3">
+                <select className="form-select"
+                    label="3/3"
+                    name="selectChoix"
+                    value={ligneData.selectChoix}
+                    onChange={handleChange}>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>

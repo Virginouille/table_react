@@ -1,16 +1,38 @@
 import React, { useState } from "react";
 import { Ligne } from "./Ligne";
 
-export function Table() {
-    const [lignes, setLignes] = useState([""]);
+const initialLigneData = {
+    text: "",
+    selectBool: "1",
+    selectChoix: "1"
+};
 
-    const handleLigneChange = (index, value) => {
+export function Table() {
+    const [lignes, setLignes] = useState([initialLigneData]);
+
+    const handleLigneChange = (index, name, value) => {
         const nouvellesLignes = [...lignes];
-        nouvellesLignes[index] = value;
+
+        nouvellesLignes[index] = {
+            ...nouvellesLignes[index],
+            [name]: value
+        };
+
+        //Ajout nouvelle ligne
         setLignes(nouvellesLignes);
 
-        if (index === lignes.length - 1 && value.trim() !== "") {
-            setLignes([...nouvellesLignes, ""]);
+        if (index === lignes.length - 1) {
+
+            const ligneActuelle = nouvellesLignes[index];
+
+            const isLigneFilled =
+                ligneActuelle.text.trim() !== "" ||
+                ligneActuelle.selectBool !== initialLigneData.selectBool ||
+                ligneActuelle.selectChoix !== initialLigneData.selectChoix;
+
+            if (isLigneFilled) {
+                setLignes([...nouvellesLignes, initialLigneData]);
+            }
         }
     };
 
@@ -25,12 +47,11 @@ export function Table() {
                 </tr>
             </thead>
             <tbody>
-                {lignes.map((texteLigne, index) => (
+                {lignes.map((ligneData, index) => (
                     <Ligne
                         key={index}
-                        initialText={texteLigne}
-                        onTextChange={(value) => handleLigneChange(index, value)}
-                        isLastLine={index === lignes.length - 1}
+                        ligneData={ligneData}
+                        onDataChange={(name, value) => handleLigneChange(index, name, value)}
                     />
                 ))}
             </tbody>
