@@ -50,14 +50,20 @@ export function Table() {
 
     //Fonction pour ajouter un badge sur une ligne
     const handleBadgesChange = (index, newBadgesArray) => {
+
+        //coPIE du tableau de lignes
         const nouvellesLignes = [...lignes];
-        const ligne = nouvellesLignes[index];
+
+        //Copie de l'object ligne 
+        nouvellesLignes[index] = {
+            ...nouvellesLignes[index],
+            selectedBadges: newBadgesArray
+        };
 
 
-        ligne.selectedBadges = newBadgesArray; // Met à jour le tableau complet
+        //Mise à jour de l'état du tableau avec le nouvel object ligne
         setLignes(nouvellesLignes);
 
-        // 💡 Logique d'ajout de ligne si l'utilisateur ajoute le premier badge à la dernière ligne
         if (index === lignes.length - 1 && newBadgesArray.length > 0) {
             setLignes([...nouvellesLignes, initialLigneData]);
         }
@@ -80,8 +86,7 @@ export function Table() {
                         ligneData={ligneData}
                         onDataChange={(name, value) => handleLigneChange(index, name, value)}
                         onDelete={() => handleLigneDelete(index)}
-                        onBadgeAdd={(badgeValue) => handleBadgeAdd(index, badgeValue)}
-                        onBadgeRemove={(badgeValue) => handleBadgeRemove(index, badgeValue)}
+                        onBadgesChange={(newBadgesArray) => handleBadgesChange(index, newBadgesArray)}
                     />
                 ))}
             </tbody>
