@@ -1,7 +1,12 @@
-import { useState } from "react";
+import React from "react";
 
-export function Ligne() {
-    const [text, setText] = useState("");
+// Le composant reçoit la valeur et le callback du parent
+export function Ligne({ initialText, onTextChange }) {
+
+    const handleChange = (e) => {
+        // Envoie la nouvelle valeur au parent Table
+        onTextChange(e.target.value);
+    };
 
     return (
         <tr>
@@ -9,8 +14,8 @@ export function Ligne() {
                 <input
                     type="text"
                     className="bg-white text-secondary"
-                    value={text}
-                    onChange={(e) => setText(e.target.value)}
+                    value={initialText}
+                    onChange={handleChange}
                     placeholder="lorem"
                 />
             </td>
