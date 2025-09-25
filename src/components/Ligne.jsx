@@ -1,28 +1,11 @@
-import { useState } from "react"
+import { useState } from "react";
 
-export function Table() {
+export function Ligne() {
 
     const [text, setText] = useState("")
 
-    //Fuction pour détecter si un champ text est vide
-    function isEmpty() {
-
-        console.log(text)
-        return text.trim() === ""
-
-    }
-
     return (
-
-        <table className="table">
-            <thead>
-                <tr>
-                    <th scope="col">Text</th>
-                    <th scope="col">Bool</th>
-                    <th scope="col">Auto Complet</th>
-                    <th scope="col">Select</th>
-                </tr>
-            </thead>
+        <table className="table Ligne d-none">
             <tbody>
                 <tr>
                     <td className="w-50"><input
@@ -31,7 +14,6 @@ export function Table() {
                         value={text}
                         onChange={(e) => setText(e.target.value)}
                         placeholder="lorem"></input>
-                        {isEmpty() ? "Vide" : "Rempli"}
                     </td>
                     <td className="w-50"><select className="form-select">
                         <option value="1">Oui</option>
@@ -55,6 +37,6 @@ export function Table() {
                 </tr>
             </tbody>
         </table >
+    );
 
-    )
 }
