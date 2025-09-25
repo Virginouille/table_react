@@ -4,7 +4,8 @@ import { Ligne } from "./Ligne";
 const initialLigneData = {
     text: "",
     selectBool: "1",
-    selectChoix: "1"
+    selectChoix: "1",
+    selectedBadges: []
 };
 
 export function Table() {
@@ -28,7 +29,8 @@ export function Table() {
             const isLigneFilled =
                 ligneActuelle.text.trim() !== "" ||
                 ligneActuelle.selectBool !== initialLigneData.selectBool ||
-                ligneActuelle.selectChoix !== initialLigneData.selectChoix;
+                ligneActuelle.selectChoix !== initialLigneData.selectChoix ||
+                ligneActuelle.selectedBadges.length > 0;
 
             if (isLigneFilled) {
                 setLignes([...nouvellesLignes, initialLigneData]);
@@ -45,6 +47,21 @@ export function Table() {
             setLignes(nouvellesLignes); // Mettre à jour l'état avec le nouveau tableau
         }
     }
+
+    //Fonction pour ajouter un badge sur une ligne
+    const handleBadgesChange = (index, newBadgesArray) => {
+        const nouvellesLignes = [...lignes];
+        const ligne = nouvellesLignes[index];
+
+
+        ligne.selectedBadges = newBadgesArray; // Met à jour le tableau complet
+        setLignes(nouvellesLignes);
+
+        // 💡 Logique d'ajout de ligne si l'utilisateur ajoute le premier badge à la dernière ligne
+        if (index === lignes.length - 1 && newBadgesArray.length > 0) {
+            setLignes([...nouvellesLignes, initialLigneData]);
+        }
+    };
 
     return (
         <table className="table">
@@ -63,6 +80,8 @@ export function Table() {
                         ligneData={ligneData}
                         onDataChange={(name, value) => handleLigneChange(index, name, value)}
                         onDelete={() => handleLigneDelete(index)}
+                        onBadgeAdd={(badgeValue) => handleBadgeAdd(index, badgeValue)}
+                        onBadgeRemove={(badgeValue) => handleBadgeRemove(index, badgeValue)}
                     />
                 ))}
             </tbody>

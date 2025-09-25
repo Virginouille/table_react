@@ -1,7 +1,9 @@
 import React from "react";
+import { AutoCompleteInput } from "./AutoCompleteInput";
+
 
 // Le composant reçoit la valeur et le callback du parent
-export function Ligne({ ligneData, onDataChange, onDelete }) {
+export function Ligne({ ligneData, onDataChange, onDelete, onBadgesChange, onBadgeRemove }) {
 
     //// Fonction générique pour gérer tous les changements texte /select
     const handleChange = (e) => {
@@ -37,17 +39,24 @@ export function Ligne({ ligneData, onDataChange, onDelete }) {
 
             {/*Zone badge auto-complete*/}
             <td className="container">
-                <div className="row">
-                    <div
-                        style={{ gridTemplateColumns: "1fr 1fr" }}
-                        className=" col mb-3 d-flex d-grid gap-3"
-                    >
-                        <h6>
-                            <span className="p-2 badge text-bg-secondary">Test 1</span>
-                        </h6>
-                        <h6>
-                            <span className="p-2 badge text-bg-secondary">Test 2</span>
-                        </h6>
+                <AutoCompleteInput
+                    onBadgesChange={onBadgesChange}
+                    selectedBadges={ligneData.selectedBadges} />
+
+                <div className="row mt-2">
+                    <div className="col mb-3 d-flex d-grid gap-3">
+                        {ligneData.selectedBadges && ligneData.selectedBadges.map((badge, index) => (
+                            <h6 key={index}>
+                                <span className="p-2 badge text-bg-secondary d-flex align-items-center">
+                                    {badge}
+                                    <i
+                                        className="bi bi-x ms-2"
+                                        style={{ cursor: 'pointer' }}
+                                        onClick={() => onBadgeRemove(badge)}
+                                    ></i>
+                                </span>
+                            </h6>
+                        ))}
                     </div>
                 </div>
             </td>
