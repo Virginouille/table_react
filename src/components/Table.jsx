@@ -36,6 +36,16 @@ export function Table() {
         }
     };
 
+    //Fonction de suppression d'une ligne
+    const handleLigneDelete = (indexToDelete) => {
+        const nouvellesLignes = lignes.filter((_, index) => index !== indexToDelete);
+        if (nouvellesLignes.length === 0) {
+            setLignes([initialLigneData]); // Garde toujours au moins une ligne vide
+        } else {
+            setLignes(nouvellesLignes); // Mettre à jour l'état avec le nouveau tableau
+        }
+    }
+
     return (
         <table className="table">
             <thead>
@@ -52,6 +62,7 @@ export function Table() {
                         key={index}
                         ligneData={ligneData}
                         onDataChange={(name, value) => handleLigneChange(index, name, value)}
+                        onDelete={() => handleLigneDelete(index)}
                     />
                 ))}
             </tbody>

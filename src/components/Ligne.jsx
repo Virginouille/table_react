@@ -1,7 +1,7 @@
 import React from "react";
 
 // Le composant reçoit la valeur et le callback du parent
-export function Ligne({ ligneData, onDataChange }) {
+export function Ligne({ ligneData, onDataChange, onDelete }) {
 
     //// Fonction générique pour gérer tous les changements texte /select
     const handleChange = (e) => {
@@ -63,6 +63,14 @@ export function Ligne({ ligneData, onDataChange }) {
                     <option value="2">2</option>
                     <option value="3">3</option>
                 </select>
+            </td>
+
+            {/*Zone delete*/}
+            <td>
+                <button className="btn btn-secondary btn-sm"
+                    onClick={onDelete}>
+                    <i className="bi bi-x-circle"></i>
+                </button>
             </td>
         </tr>
     );
